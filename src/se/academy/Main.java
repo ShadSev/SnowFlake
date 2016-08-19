@@ -20,6 +20,7 @@ public class Main {
 
 
         List<Flake> flakes = new ArrayList<>();
+        List<StructureBlock> blocks = new ArrayList<>();
 
         while (true) {
             Key key;
@@ -30,12 +31,12 @@ public class Main {
             while (key == null);
 
             terminal.clearScreen();
-            UpdateScreen(flakes, terminal);
-
+            UpdateScreen(flakes, blocks, terminal);
+            addStructure(blocks, terminal);
         }
     }
 
-    private static void UpdateScreen(List<Flake> flakes, Terminal terminal) {
+    private static void UpdateScreen(List<Flake> flakes, List<StructureBlock> blocks, Terminal terminal) {
         Random rand = new Random();
         Flake flake = new Flake(rand.nextInt(35), 0);
         flakes.add(flake);
@@ -48,17 +49,41 @@ public class Main {
                     isFreeSpace = false;
                 }
             }
-            if(flakes.get(i).y<20 && isFreeSpace) {
-                flakes.get(i).y = flakes.get(i).y + 1; }
-
-            terminal.moveCursor(flakes.get(i).x, flakes.get(i).y);
-            terminal.applyForegroundColor(255,255,255);
-            terminal.putCharacter('\u2588');
-            terminal.moveCursor(0, 0);
-
+            for (int j = 0; j < blocks.size(); j++) {
+                if (flakes.get(i).x == blocks.get(j).x && flakes.get(i).y + 1 == blocks.get(j).y)
+                    isFreeSpace = false;
 
             }
-        }
+            if (flakes.get(i).y < 20 && isFreeSpace) {
 
+                flakes.get(i).y = flakes.get(i).y + 1;
+            }
+
+            terminal.moveCursor(flakes.get(i).x, flakes.get(i).y);
+            terminal.applyForegroundColor(255, 255, 255);
+            terminal.putCharacter('\u2588');
+            terminal.moveCursor(0, 0);
+        }
     }
+
+    private static void addStructure(List<StructureBlock> blocks, Terminal terminal) {
+        int bla = 5;
+        for (int i = 10; i <= 20; i++) {
+            StructureBlock block = new StructureBlock(5, i);
+            blocks.add(block);
+            terminal.moveCursor(5, i);
+            terminal.putCharacter('X');
+            StructureBlock block2 = new StructureBlock(15, i);
+            blocks.add(block2);
+            terminal.moveCursor(15, i);
+            terminal.putCharacter('X');
+            StructureBlock block3 = new StructureBlock(bla, 10);
+            blocks.add(block3);
+            terminal.moveCursor(bla, 10);
+            terminal.putCharacter('X');
+            terminal.moveCursor(0, 0);
+            bla++;
+        }
+    }
+}
 
