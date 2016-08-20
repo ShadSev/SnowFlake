@@ -40,24 +40,36 @@ public class Main {
         Random rand = new Random();
         Flake flake = new Flake(rand.nextInt(35), 0);
         flakes.add(flake);
-        boolean isFreeSpace = true;
+        boolean isFreeSpace;
+        boolean isSideFree;
         for (int i = 0; i < flakes.size(); i++) {
             isFreeSpace = true;
+            isSideFree = true;
 
             for (int j = 0; j < flakes.size(); j++) {
                 if (flakes.get(i).x == flakes.get(j).x && flakes.get(i).y + 1 == flakes.get(j).y) {
                     isFreeSpace = false;
                 }
+                    if (flakes.get(i).x - 1 == flakes.get(j).x && flakes.get(i).y + 1 == flakes.get(j).y) {
+                        isSideFree = false;
+                    }
             }
             for (int j = 0; j < blocks.size(); j++) {
-                if (flakes.get(i).x == blocks.get(j).x && flakes.get(i).y + 1 == blocks.get(j).y)
-                    isFreeSpace = false;
+                if (flakes.get(i).x == blocks.get(j).x && flakes.get(i).y + 1 == blocks.get(j).y) {
+                    isFreeSpace = false;}
 
+                    if (flakes.get(i).x - 1 == blocks.get(j).x && flakes.get(i).y + 1 == blocks.get(j).y) {
+                        isSideFree = false;
+                    }
             }
             if (flakes.get(i).y < 20 && isFreeSpace) {
-
-                flakes.get(i).y = flakes.get(i).y + 1;
+                    flakes.get(i).y = flakes.get(i).y + 1;
             }
+            if(flakes.get(i).y<20 && isSideFree && !isFreeSpace){
+                flakes.get(i).x=flakes.get(i).x-1;
+                flakes.get(i).y=flakes.get(i).y+1;
+            }
+
 
             terminal.moveCursor(flakes.get(i).x, flakes.get(i).y);
             terminal.applyForegroundColor(255, 255, 255);

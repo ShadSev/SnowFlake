@@ -11,7 +11,7 @@ public class StructureBlock {
     public int y;
 
     public StructureBlock(int x, int y) {
-        this.x=x;
-        this.y=y;
-        }
+        this.x = x;
+        this.y = y;
     }
+}
